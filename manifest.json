@@ -8,12 +8,18 @@
         {
             "matches": ["*://*/*"],
             "css":[],
-            "js": ["test.js"]
+            "js": ["mapLayout.js"]
         }
     ],
     "background": {
       "service_worker": "background.js"
     },
+    "commands": {
+        "inject-script": {
+          "suggested_key": "Ctrl+Shift+Y",
+          "description": "Inject a script on the page"
+        }
+      },
     "permissions": ["storage", "activeTab", "scripting"],
     "action": {
       "default_popup": "popup.html",
