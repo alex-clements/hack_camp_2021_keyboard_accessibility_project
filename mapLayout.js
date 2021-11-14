@@ -1,12 +1,22 @@
 window.onload = () => {
 
     var allElements = document.querySelectorAll(
-        'a[href], button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])'
+        // 'a[href], button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])'
+        'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]'
         );
 
-    let allElementsArray = Array.from(allElements);
+    let allElementsArrayUnfiltered = Array.from(allElements);
 
-    allElementsArray.filter(el => !el.hasAttribute('disabled') && !el.getAttribute("aria-hidden"));
+    const allElementsArray2 = allElementsArrayUnfiltered.filter(el => 
+        !el.hasAttribute('disabled') 
+    && !el.getAttribute("aria-hidden") );
+
+    function isHidden(el) {
+        var style = window.getComputedStyle(el);
+        return (style.display === 'none')
+    }
+
+    allElementsArray = allElementsArray2.filter(el => !isHidden(el));
 
     var myMap = new Map();
 
@@ -47,10 +57,6 @@ window.onload = () => {
     }); 
 
     
-
-
-
-
     document.addEventListener('keydown', function(event) {
 
         var keyPressed = "";
@@ -81,6 +87,8 @@ window.onload = () => {
                 var newElement = document.querySelectorAll('[data-customAttribute="' + nextFocusItem + '"]');
                 console.log(newElement);
                 newElement[0].focus();
+
+                
 
             })
 
