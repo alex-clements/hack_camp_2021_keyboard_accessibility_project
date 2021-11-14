@@ -22,3 +22,6 @@ changeColor.addEventListener("click", async () => {
       document.body.style.backgroundColor = color;
     });
   }
+
+
+  
