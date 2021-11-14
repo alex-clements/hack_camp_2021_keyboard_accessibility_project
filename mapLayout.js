@@ -56,6 +56,10 @@ window.onload = () => {
         console.log('data map set');
     }); 
 
+    chrome.storage.local.set({"currentIndex": "0"}, function() {
+        console.log('current index set');
+    });
+
     
     document.addEventListener('keydown', function(event) {
 
@@ -73,20 +77,46 @@ window.onload = () => {
         var loadedDataMap;
 
         if (nextIndex != -1) {
-            chrome.storage.local.get("dataMap", function(data) {
+            chrome.storage.local.get(["dataMap", "currentIndex"], function(data) {
                 loadedDataMap = data.dataMap;
-                // console.log(loadedDataMap);
-    
+                loadedCurrentIndex = data.currentIndex;
+                
+                // get the data attribute of the active element
                 var activeElement = document.activeElement;
                 var lookupIndex = activeElement.getAttribute('data-customAttribute')
-                console.log(lookupIndex);
-    
+                
+                // look up the index of the next item 
                 var nextFocusItem = loadedDataMap[lookupIndex][1][nextIndex];
-                console.log(nextFocusItem);
 
+                // find and focus on the new item
                 var newElement = document.querySelectorAll('[data-customAttribute="' + nextFocusItem + '"]');
-                console.log(newElement);
                 newElement[0].focus();
+
+                // check newly focused element for index
+                activeElement = document.activeElement;
+                var newIndexItem = activeElement.getAttribute('data-customAttribute')
+                
+                // if the index of the new item in focus is the same as the index before, 
+                // then go through a loop to find the next focus-able item
+                console.log("current index = " + lookupIndex);
+                console.log("new index item = " + newIndexItem);
+                var newLookupIndex = lookupIndex;
+                while (newIndexItem === lookupIndex) {
+                    newLookupIndex += 1;
+                    
+                    newElement = document.querySelectorAll('[data-customAttribute="' + newLookupIndex + '"]');
+                    newElement[0].focus();
+
+                    activeElement = document.activeElement;
+                    newIndexItem = activeElement.getAttribute('data-customAttribute');
+
+                }
+
+                // add updated map to local storage
+                chrome.storage.local.set({"dataMap": [...loadedDataMap]}, function() {
+                    console.log('data map set');
+                    console.log("");
+                }); 
 
                 
 
