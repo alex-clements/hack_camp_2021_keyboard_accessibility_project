@@ -44,17 +44,49 @@ window.onload = () => {
 
     chrome.storage.local.set({"dataMap": [...dataMap]}, function() {
         console.log('data map set');
-    });
+    }); 
+
+    
 
 
-    // document.addEventListener('keydown', function(event) {
 
-    //     var keyPressed;
 
-    //     if (event.key == "ArrowLeft") {
-    //         event.preventDefault();
-    //         keyPressed = "left arrow"
-    //     }
-    // })
+    document.addEventListener('keydown', function(event) {
+
+        var keyPressed = "";
+        var nextIndex = -1;
+
+        if (event.key == "ArrowLeft") {
+            event.preventDefault();
+            nextIndex = 0;
+        } else if (event.key == "ArrowRight") {
+            event.preventDefault();
+            nextIndex = 1;
+        }
+        
+        var loadedDataMap;
+
+        if (nextIndex != -1) {
+            chrome.storage.local.get("dataMap", function(data) {
+                loadedDataMap = data.dataMap;
+                // console.log(loadedDataMap);
+    
+                var activeElement = document.activeElement;
+                var lookupIndex = activeElement.getAttribute('data-customAttribute')
+                console.log(lookupIndex);
+    
+                var nextFocusItem = loadedDataMap[lookupIndex][1][nextIndex];
+                console.log(nextFocusItem);
+
+                var newElement = document.querySelectorAll('[data-customAttribute="' + nextFocusItem + '"]');
+                console.log(newElement);
+                newElement[0].focus();
+
+            })
+
+        }
+
+
+    })
 
 }
