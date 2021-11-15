@@ -69,6 +69,15 @@ window.onload = () => {
         console.log('current index set');
     });
 
+    chrome.storage.local.get("autofocus", function(data) {
+        var autofocus = data.autofocus;
+
+        if (autofocus) {
+            myMap.get(0)['domElement'].focus();
+        }
+    })
+    
+
     
     document.addEventListener('keydown', function(event) {
 
@@ -140,92 +149,92 @@ window.onload = () => {
     })
 
 
-    function mutationFunction() {
+//     function mutationFunction() {
 
-        var allElements = document.querySelectorAll(
-            'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]'
-            );
+//         var allElements = document.querySelectorAll(
+//             'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]'
+//             );
     
-        let allElementsArrayUnfiltered = Array.from(allElements);
+//         let allElementsArrayUnfiltered = Array.from(allElements);
     
-        const allElementsArray2 = allElementsArrayUnfiltered.filter(el => 
-            !el.hasAttribute('disabled') 
-        && !el.getAttribute("aria-hidden") );
+//         const allElementsArray2 = allElementsArrayUnfiltered.filter(el => 
+//             !el.hasAttribute('disabled') 
+//         && !el.getAttribute("aria-hidden") );
     
-        function isHidden(el) {
-            var style = window.getComputedStyle(el);
-            return (style.display === 'none')
-        }
+//         function isHidden(el) {
+//             var style = window.getComputedStyle(el);
+//             return (style.display === 'none')
+//         }
     
-        allElementsArray = allElementsArray2.filter(el => !isHidden(el));
+//         allElementsArray = allElementsArray2.filter(el => !isHidden(el));
 
-        chrome.storage.local.get(["myMap", "dataMap"], function(data) {
-            var mySet = new Set();
+//         chrome.storage.local.get(["myMap", "dataMap"], function(data) {
+//             var mySet = new Set();
             
 
-            allElementsArray.map((i, index) => {
-                mySet.add(index);
-            })
+//             allElementsArray.map((i, index) => {
+//                 mySet.add(index);
+//             })
 
-            var myMap = data.myMap;
-            var dataMap = data.dataMap; 
-            console.log(myMap);
-            var attributeData;
+//             var myMap = data.myMap;
+//             var dataMap = data.dataMap; 
+//             console.log(myMap);
+//             var attributeData;
 
-            var dataMapOriginalSize = dataMap.length;
+//             var dataMapOriginalSize = dataMap.length;
 
-            allElementsArray.map((i, index) => {
-                attributeData = parseInt(i.getAttribute('data-customAttribute'));
-                console.log(attributeData);
+//             allElementsArray.map((i, index) => {
+//                 attributeData = parseInt(i.getAttribute('data-customAttribute'));
+//                 console.log(attributeData);
 
-                if (mySet.has(attributeData)) {
-                    //
-                } else {
-                    var rect = i.getBoundingClientRect();
+//                 if (mySet.has(attributeData)) {
+//                     //
+//                 } else {
+//                     var rect = i.getBoundingClientRect();
         
-                    const newObject = {
-                        "domElement" : i,
-                        "x" : rect.x,
-                        "y" : rect.y
-                    }
-                    console.log(i);
-                    i.setAttribute("data-customAttribute", index);
+//                     const newObject = {
+//                         "domElement" : i,
+//                         "x" : rect.x,
+//                         "y" : rect.y
+//                     }
+//                     console.log(i);
+//                     i.setAttribute("data-customAttribute", index);
             
-                    myMap.push([index, newObject])
-                }
-            })
+//                     myMap.push([index, newObject])
+//                 }
+//             })
 
-            chrome.storage.local.set({"myMap": [...myMap]}, function() {
-                console.log('myMap set in storage');
-            })
-// --------------------------------------------------------------------------------------------------------
+//             chrome.storage.local.set({"myMap": [...myMap]}, function() {
+//                 console.log('myMap set in storage');
+//             })
+// // --------------------------------------------------------------------------------------------------------
         
-            var i;
+//             var i;
         
-            for (i=dataMapOriginalSize-1; i<myMap.size-2; i++) {
-                dataMap.set(i.toString(), [(i-1).toString(), (i+1).toString()])
-            }
+//             for (i=dataMapOriginalSize-1; i<myMap.size-2; i++) {
+//                 dataMap.set(i.toString(), [(i-1).toString(), (i+1).toString()])
+//             }
         
-            dataMap.set(i.toString(), [(i-1).toString(), i.toString()])
+//             dataMap.set(i.toString(), [(i-1).toString(), i.toString()])
         
-            chrome.storage.local.set({"dataMap": [...dataMap]}, function() {
-                console.log('data map set');
-            }); 
-        })
-    }
+//             chrome.storage.local.set({"dataMap": [...dataMap]}, function() {
+//                 console.log('data map set');
+//             }); 
+//         })
+//     }
 
-    function debounce_leading(func, timeout = 5000){
+//     function debounce_leading(func, timeout = 5000){
 
-      let timer;
-        return (...args) => {
-          clearTimeout(timer);
-          timer = setTimeout(() => {
-            func.apply(this, args);
-            timer = undefined;
-          }, timeout);
-        };
-    }
+//       let timer;
+//         return (...args) => {
+//           clearTimeout(timer);
+//           timer = setTimeout(() => {
+//             func.apply(this, args);
+//             timer = undefined;
+//           }, timeout);
+//         };
+//     }
 
-      const mutationFunctionDebounced = debounce_leading(() => mutationFunction());
+//       const mutationFunctionDebounced = debounce_leading(() => mutationFunction());
 
 }
