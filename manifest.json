@@ -1,6 +1,6 @@
 {
-    "name": "Keyboard Accessibility Extension",
-    "description": "Build an Extension!",
+    "name": "navigatr",
+    "description": "keyboard accessibility extension",
     "version": "1.0",
     "manifest_version": 3,
     "options_page": "options.html",
