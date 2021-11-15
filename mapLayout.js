@@ -84,10 +84,10 @@ window.onload = () => {
         var keyPressed = "";
         var nextIndex = -1;
 
-        if (event.key == "ArrowLeft") {
+        if (event.key == "ArrowLeft" && event.shiftKey) {
             event.preventDefault();
             nextIndex = 0;
-        } else if (event.key == "ArrowRight") {
+        } else if (event.key == "ArrowRight" && event.shiftKey) {
             event.preventDefault();
             nextIndex = 1;
         }
