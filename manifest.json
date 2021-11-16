@@ -11,7 +11,7 @@
         {
             "matches": ["*://*/*"],
             "css":[],
-            "js": ["mapLayout.js"]
+            "js": ["init.js","mapLayoutGraph.js", "jquery.js", "jquery-ui.min.js", "nodeClass.js"]
         }
     ],
     "permissions": ["storage", "activeTab", "scripting"],

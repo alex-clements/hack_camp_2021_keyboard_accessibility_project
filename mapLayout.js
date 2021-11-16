@@ -1,5 +1,7 @@
 window.onload = () => {
 
+    testFunction();
+
     // var mutationObserver = new MutationObserver(function(mutations) {
     //     mutations.forEach(mutationFunctionDebounced)
     // });
@@ -59,15 +61,13 @@ window.onload = () => {
 
     dataMap.set(i.toString(), [(i-1).toString(), "0"])
 
-    console.log(dataMap);
-
     chrome.storage.local.set({"dataMap": [...dataMap]}, function() {
         console.log('data map set');
     }); 
 
-    chrome.storage.local.set({"currentIndex": "0"}, function() {
-        console.log('current index set');
-    });
+    // chrome.storage.local.set({"currentIndex": "0"}, function() {
+    //     console.log('current index set');
+    // });
 
     chrome.storage.local.get("autofocus", function(data) {
         var autofocus = data.autofocus;
