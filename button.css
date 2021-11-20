@@ -2,3 +2,9 @@
  .container-color {
     background-color: "#2E6699";
   }
+
+  .selector-color {
+    border: solid;
+    border-width: 2px;
+    border-color: red;
+  }

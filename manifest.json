@@ -10,8 +10,8 @@
     "content_scripts": [
         {
             "matches": ["*://*/*"],
-            "css":[],
-            "js": ["init.js","mapLayoutGraph.js", "jquery.js", "jquery-ui.min.js", "nodeClass.js"]
+            "css":["button.css"],
+            "js": ["init.js","mapLayoutGraph.js", "jquery.js", "jquery-ui.min.js", "nodeClass.js", "mutationObserver.js"]
         }
     ],
     "permissions": ["storage", "activeTab", "scripting"],
