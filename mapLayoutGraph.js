@@ -38,7 +38,6 @@ function graphLayout() {
     });
 
     firstElement = document.querySelectorAll('[data-customAttribute="' + 0 + '"]');
-    firstElement[0].focus();
 }
 
 function distance(node1, node2, costX=1, costY=1) {
