@@ -1,5 +1,13 @@
+
+
 window.onload = () => {
+    chrome.storage.local.set({"currentIndexInitialized" : false}, function(){
+        console.log("current index initialized reset");
+    })
+
     graphLayout();
+
+    setupMutationObserver();
 
     document.addEventListener('keydown', function(event) {
 
@@ -27,9 +35,14 @@ window.onload = () => {
                 var graphObject = JSON.parse(data.graphObject);
                 var currentIndex = parseInt(data.currentIndex);
 
+                unhighlightCurrentElements(graphObject, currentIndex);
+
                 newElementIndex = graphObject[currentIndex][1][nextIndex];
                 newElementArray = document.querySelectorAll('[data-customAttribute="' + newElementIndex + '"]');
                 newElementArray[0].focus();
+
+                highlightNextElements(graphObject, newElementIndex);
+                
 
                 chrome.storage.local.set({"currentIndex" : newElementIndex}, function() {
                     console.log("Current Index set");

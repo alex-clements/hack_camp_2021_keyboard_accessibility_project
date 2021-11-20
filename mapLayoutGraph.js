@@ -33,11 +33,22 @@ function graphLayout() {
         console.log('Page graph committed to storage');
     }); 
 
-    chrome.storage.local.set({"currentIndex": 0}, function() {
-        console.log("Initial index set");
-    });
+    initCurrentIndex();
 
     firstElement = document.querySelectorAll('[data-customAttribute="' + 0 + '"]');
+}
+
+function initCurrentIndex() {
+    chrome.storage.local.get(["currentIndex", "currentIndexInitialized"], function(data) {
+        console.log(data.currentIndexInitialized);
+
+        if (data.currentIndexInitialized === null || data.currentIndexInitialized == false) {
+            chrome.storage.local.set({"currentIndex": 0, "currentIndexInitialized": true}, function() {
+                console.log("initial index set");
+            })
+        }
+        
+    })
 }
 
 function distance(node1, node2, costX=1, costY=1) {
@@ -107,4 +118,28 @@ function createGraphObject(myDict) {
     });
 
     return JSON.stringify(returnObject);
+}
+
+function highlightNextElements(graphObject, index) {
+    newElementIndices = graphObject[index][1];
+    newElementIndices.forEach((x) => {
+        newElementArray = document.querySelectorAll('[data-customAttribute="' + x + '"]');
+        newElement = newElementArray[0];
+        console.log(newElement);
+        newElement.classList.add("selector-color");
+    })
+    
+    
+}
+
+function unhighlightCurrentElements(graphObject, index) {
+    elementIndices = graphObject[index][1];
+    console.log(elementIndices);
+    elementIndices.forEach((x) => {
+        if (x != null) {
+            elementArray = document.querySelectorAll('[data-customAttribute="' + x + '"]');
+            element = elementArray[0];
+            element.classList.remove('selector-color');
+        }
+    })
 }

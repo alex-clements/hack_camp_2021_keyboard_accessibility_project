@@ -65,10 +65,6 @@ window.onload = () => {
         console.log('data map set');
     }); 
 
-    // chrome.storage.local.set({"currentIndex": "0"}, function() {
-    //     console.log('current index set');
-    // });
-
     chrome.storage.local.get("autofocus", function(data) {
         var autofocus = data.autofocus;
 
